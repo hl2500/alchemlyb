@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 import alchemlyb
-from alchemlyb.estimators import TI
+from alchemlyb.estimators import TI_gq
 from alchemlyb.parsing import amber
 
 
@@ -148,7 +148,7 @@ class Test_Units:
     """Test the units."""
 
     def test_ti(self, Coulomb):
-        ti = TI().fit(Coulomb)
+        ti = TI_gq().fit(Coulomb)
         assert ti.delta_f_.attrs["temperature"] == 300
         assert ti.delta_f_.attrs["energy_unit"] == "kT"
         assert ti.d_delta_f_.attrs["temperature"] == 300
@@ -157,7 +157,7 @@ class Test_Units:
         assert ti.dhdl.attrs["energy_unit"] == "kT"
 
     def test_ti_separate_dhdl(self, Coulomb):
-        ti = TI().fit(Coulomb)
+        ti = TI_gq().fit(Coulomb)
         dhdl_list = ti.separate_dhdl()
         for dhdl in dhdl_list:
             assert dhdl.attrs["temperature"] == 300
@@ -174,7 +174,7 @@ class Test_MultipleColumnUnits:
         return dhdl
 
     def test_ti_separate_dhdl(self, dhdl):
-        ti = TI().fit(dhdl)
+        ti = TI_gq().fit(dhdl)
         dhdl_list = ti.separate_dhdl()
         for dhdl in dhdl_list:
             assert dhdl.attrs["temperature"] == 300
